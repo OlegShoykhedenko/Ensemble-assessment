@@ -31,7 +31,12 @@ public class Movie {
     private Integer likeCount;
     private Integer dislikeCount;
 
-    public Movie(String title, String description, Integer releaseYear, Double rating, Integer likeCount, Integer dislikeCount) {
+    public Movie(String title,
+                 String description,
+                 Integer releaseYear,
+                 Double rating,
+                 Integer likeCount,
+                 Integer dislikeCount) {
         this.title = title;
         this.description = description;
         this.releaseYear = releaseYear;
