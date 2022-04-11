@@ -1,5 +1,7 @@
-package com.example.demo.movie;
+package com.example.demo.service;
 
+import com.example.demo.model.Movie;
+import com.example.demo.repo.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

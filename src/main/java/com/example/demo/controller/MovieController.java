@@ -1,5 +1,7 @@
-package com.example.demo.movie;
+package com.example.demo.controller;
 
+import com.example.demo.model.Movie;
+import com.example.demo.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
