@@ -1,53 +1,52 @@
 package com.example.demo.movie;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/movie")
-@AllArgsConstructor
+@RequiredArgsConstructor
+@RequestMapping("api/movies")
 public class MovieController {
 
     private final MovieService movieService;
 
-    @GetMapping("/get")
+    @GetMapping
     public List<Movie> getMovies() {
         return movieService.getMovies();
     }
 
-    @PostMapping("/add")
-    public void addMovie(@RequestBody Movie movie) {
-        movieService.addMovie(movie);
+    @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public Movie addMovie(@RequestBody Movie movie) {
+        return movieService.addMovie(movie);
     }
 
-    @DeleteMapping(path = "/delete/{movieId}")
+    @DeleteMapping("{movieId}")
     public void deleteMovie(@PathVariable("movieId") Long movieId) {
         movieService.deleteMovie(movieId);
     }
 
-    @PatchMapping("/update/{movieId}")
+    @PatchMapping("{movieId}")
     public void updateMovie(@RequestBody Movie movie, @PathVariable Long movieId) {
         movieService.updateMovie(movie, movieId);
     }
 
-    @PatchMapping("/like/{movieId}")
+    @PatchMapping("{movieId}/like")
     public void likeMovie(@PathVariable Long movieId) {
         movieService.likeMovie(movieId);
     }
 
-    @PatchMapping("/dislike/{movieId}")
+    @PatchMapping("{movieId}/dislike")
     public void dislikeMovie(@PathVariable Long movieId) {
         movieService.dislikeMovie(movieId);
     }
 
-    @GetMapping("/searchByTitle")
+    @GetMapping("searchByTitle")
     public List<Movie> searchByTitle(@Param("title") String title) {
         return movieService.searchByTitle(title);
     }
 }
-
-
-

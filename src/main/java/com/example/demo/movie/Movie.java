@@ -3,6 +3,7 @@ package com.example.demo.movie;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Setter
 @Getter

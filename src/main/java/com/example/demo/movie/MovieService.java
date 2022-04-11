@@ -1,6 +1,6 @@
 package com.example.demo.movie;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MovieService {
 
     private final MovieRepository movieRepository;
@@ -18,13 +18,19 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
-    public void addMovie(Movie movie) {
-        movieRepository.save(movie);
+    public Movie addMovie(Movie movie) {
+        return movieRepository.save(movie);
+    }
+
+    private Movie findMovieById(Long movieId) {
+        return movieRepository.findById(movieId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "movie with id " + movieId + " does not exists"
+                ));
     }
 
     public void deleteMovie(Long movieId) {
-        boolean exists = movieRepository.existsById(movieId);
-        if (!exists) {
+        if(!movieRepository.existsById(movieId)) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "movie with id " + movieId + " does not exists"
             );
@@ -33,10 +39,7 @@ public class MovieService {
     }
 
     public void updateMovie(Movie movie, Long movieId) {
-        Movie updatedMovie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "movie with id " + movieId + " does not exists"
-                ));
+        Movie updatedMovie = findMovieById(movieId);
 
         boolean needUpdate = false;
         if (movie.getTitle() != null && movie.getTitle().length() > 0
@@ -75,34 +78,27 @@ public class MovieService {
             needUpdate = true;
         }
 
-        if (needUpdate) {
+        if(needUpdate){
             movieRepository.save(updatedMovie);
         }
-
     }
 
     public void likeMovie(Long movieId) {
-        Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "movie with id " + movieId + " does not exists"
-                ));
+        Movie movie = findMovieById(movieId);
 
         movie.setLikeCount(movie.getLikeCount() + 1);
         movieRepository.save(movie);
     }
 
     public void dislikeMovie(Long movieId) {
-        Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "movie with id " + movieId + " does not exists"
-                ));
+        Movie movie = findMovieById(movieId);
 
         movie.setDislikeCount(movie.getDislikeCount() + 1);
         movieRepository.save(movie);
     }
 
     public List<Movie> searchByTitle(String title) {
-        return movieRepository.findMovieByTitle(title);
+        return movieRepository.findMovieByTitleContaining(title);
     }
 
 }
