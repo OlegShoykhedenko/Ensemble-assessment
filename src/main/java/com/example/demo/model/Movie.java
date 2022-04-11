@@ -3,12 +3,9 @@ package com.example.demo.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
 @Entity
 @Table
@@ -31,18 +28,4 @@ public class Movie {
     private Double rating;
     private Integer likeCount;
     private Integer dislikeCount;
-
-    public Movie(String title,
-                 String description,
-                 Integer releaseYear,
-                 Double rating,
-                 Integer likeCount,
-                 Integer dislikeCount) {
-        this.title = title;
-        this.description = description;
-        this.releaseYear = releaseYear;
-        this.rating = rating;
-        this.likeCount = likeCount;
-        this.dislikeCount = dislikeCount;
-    }
 }
