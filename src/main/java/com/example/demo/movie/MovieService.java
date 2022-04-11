@@ -24,7 +24,7 @@ public class MovieService {
 
     public void deleteMovie(Long movieId) {
         boolean exists = movieRepository.existsById(movieId);
-        if(!exists) {
+        if (!exists) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "movie with id " + movieId + " does not exists"
             );
@@ -39,43 +39,43 @@ public class MovieService {
                 ));
 
         boolean needUpdate = false;
-        if(movie.getTitle() != null && movie.getTitle().length() > 0
+        if (movie.getTitle() != null && movie.getTitle().length() > 0
                 && !Objects.equals(movie.getTitle(), updatedMovie.getTitle())) {
             updatedMovie.setTitle(movie.getTitle());
             needUpdate = true;
         }
 
-        if(movie.getDescription() != null && movie.getDescription().length() > 0
+        if (movie.getDescription() != null && movie.getDescription().length() > 0
                 && !Objects.equals(movie.getDescription(), updatedMovie.getDescription())) {
             updatedMovie.setDescription(movie.getDescription());
             needUpdate = true;
         }
 
-        if(movie.getReleaseYear() != null
+        if (movie.getReleaseYear() != null
                 && !Objects.equals(movie.getReleaseYear(), updatedMovie.getReleaseYear())) {
             updatedMovie.setReleaseYear(movie.getReleaseYear());
             needUpdate = true;
         }
 
-        if(movie.getRating() != null && movie.getRating() >= 0 &&
+        if (movie.getRating() != null && movie.getRating() >= 0 &&
                 !Objects.equals(movie.getRating(), updatedMovie.getRating())) {
             updatedMovie.setRating(movie.getRating());
             needUpdate = true;
         }
 
-        if(movie.getLikeCount() != null && movie.getLikeCount() >= 0
+        if (movie.getLikeCount() != null && movie.getLikeCount() >= 0
                 && !Objects.equals(movie.getLikeCount(), updatedMovie.getLikeCount())) {
             updatedMovie.setLikeCount(movie.getLikeCount());
             needUpdate = true;
         }
 
-        if(movie.getDislikeCount() != null && movie.getDislikeCount() >= 0
+        if (movie.getDislikeCount() != null && movie.getDislikeCount() >= 0
                 && !Objects.equals(movie.getDislikeCount(), updatedMovie.getDislikeCount())) {
             updatedMovie.setDislikeCount(movie.getDislikeCount());
             needUpdate = true;
         }
 
-        if(needUpdate) {
+        if (needUpdate) {
             movieRepository.save(updatedMovie);
         }
 
@@ -101,42 +101,8 @@ public class MovieService {
         movieRepository.save(movie);
     }
 
-//    @Transactional
-//    public void updateMovie(Long movieID,
-//                            String title,
-//                            String description,
-//                            Integer releaseYear,
-//                            Double rating,
-//                            Integer likeCount,
-//                            Integer dislikeCount) {
-//        Movie movie = movieRepository.findById(movieID)
-//                .orElseThrow(() -> new IllegalStateException(
-//                        "movie with id " + movieID + " does not exists"
-//                ));
-//
-//        if(title != null && title.length() > 0 && !Objects.equals(movie.getTitle(), title)) {
-//            movie.setTitle(title);
-//        }
-//
-//        if(description != null && description.length() > 0 && !Objects.equals(movie.getDescription(), description)) {
-//            movie.setDescription(description);
-//        }
-//
-//        if(releaseYear != null &&
-//                releaseYear >= 1895 &&
-//                releaseYear <= Calendar.getInstance().get(Calendar.YEAR) &&
-//                !Objects.equals(movie.getReleaseYear(), releaseYear)) {
-//            movie.setReleaseYear(releaseYear);
-//        }
-//
-//        if(rating != null && rating >= 0 && !Objects.equals(movie.getRating(), rating))
-//            movie.setRating(rating);
-//
-//        if(likeCount != null && likeCount >= 0 && !Objects.equals(movie.getLikeCount(), likeCount))
-//            movie.setLikeCount(likeCount);
-//
-//        if(dislikeCount != null && dislikeCount >= 0 && !Objects.equals(movie.getDislikeCount(), dislikeCount))
-//            movie.setDislikeCount(dislikeCount);
-//    }
+    public List<Movie> searchByTitle(String title) {
+        return movieRepository.findMovieByTitle(title);
+    }
 
 }

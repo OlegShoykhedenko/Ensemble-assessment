@@ -1,6 +1,7 @@
 package com.example.demo.movie;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,11 +12,6 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
-
-//    @Autowired
-//    public MovieController(MovieService movieService) {
-//        this.movieService = movieService;
-//    }
 
     @GetMapping("/get")
     public List<Movie> getMovies() {
@@ -32,18 +28,6 @@ public class MovieController {
         movieService.deleteMovie(movieId);
     }
 
-//    @PutMapping(path = "/update/{movieId}")
-//    public void updateMovie(
-//            @PathVariable("movieId") Long movieID,
-//            @RequestParam(required = false) String title,
-//            @RequestParam(required = false) String description,
-//            @RequestParam(required = false) Integer releaseYear,
-//            @RequestParam(required = false) Double rating,
-//            @RequestParam(required = false) Integer likeCount,
-//            @RequestParam(required = false) Integer dislikeCount ) {
-//        movieService.updateMovie(movieID, title, description, releaseYear, rating, likeCount, dislikeCount);
-//    }
-
     @PatchMapping("/update/{movieId}")
     public void updateMovie(@RequestBody Movie movie, @PathVariable Long movieId) {
         movieService.updateMovie(movie, movieId);
@@ -59,6 +43,10 @@ public class MovieController {
         movieService.dislikeMovie(movieId);
     }
 
+    @GetMapping("/searchByTitle")
+    public List<Movie> searchByTitle(@Param("title") String title) {
+        return movieService.searchByTitle(title);
+    }
 }
 
 
